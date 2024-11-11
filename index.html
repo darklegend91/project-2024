@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="login.css" />
+    <title>Quiz | Login</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <nav class="nav">
+        <div class="nav-logo">
+          <p>QUIZ</p>
+        </div>
+        <div class="nav-menu" id="navMenu">
+          <ul>
+            <li><a href="home.html" class="link">Home</a></li>
+            <li><a href="categories.html" class="link">Categories</a></li>
+            <li><a href="#" class="link">About</a></li>
+            <li><a href="#" class="link">Settings</a></li>
+          </ul>
+        </div>
+        <div class="nav-button">
+          <!-- <button class="btn" id="loginBtn" onclick="login()">Sign In</button> -->
+          <a href="register.html">
+          <button class="btn" id="registerBtn">
+            Sign Up
+          </button>
+        </a>
+        </div>
+      </nav>
+      <div class="form-box">
+        <div class="login-container" id="login">
+          <header>Login</header>
+          <div>
+            <input
+              type="text"
+              class="input-field"
+              placeholder="Username or Email"
+            />
+          </div>
+          <br />
+          <div>
+            <input type="password" class="input-field" placeholder="Password" />
+          </div>
+          <br />
+          <div>
+            <input type="submit" class="submit" value="Sign In" />
+          </div>
+          <br />
+          <div class="bottom">
+            <span>
+              Don't have an account?
+              <a href="register.html" >Sign Up</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const loginButton = document.querySelector('.submit');
+  const emailField = document.querySelector('.input-field[placeholder="Username or Email"]');
+  const passwordField = document.querySelector('.input-field[placeholder="Password"]');
+
+  loginButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+
+    const email = emailField.value.trim();
+    const password = passwordField.value;
+
+
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+
+    if (storedUser && storedUser.email === email && storedUser.password === password) {
+      alert('Login successful!');
+      window.location.href = 'home.html';
+    } else {
+      alert('Invalid email or password. Please try again.');
+    }
+  });
+});
+
+  </script>
