@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz | HTML CSS JS</title>
+    <link rel="stylesheet" href="test.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="quiz" class="flex-column">
+        <h2>Quiz</h2>
+        <div id="questions-container"></div>
+        <button id="submit" class="btn">Submit</button>
+        <div id="results"></div>
+      </div>
+    </div>
+
+    <script>
+      // Question data with various types
+      const questions = [
+        {
+          type: "single-choice", // Single choice correct question
+          question: "Inside which HTML element do we put the JavaScript?",
+          choices: ["<script>", "<javascript>", "<js>", "<scripting>"],
+          answer: 0,
+        },
+        {
+          type: "multiple-choice", // Multiple choice correct
+          question: "Which of the following are programming languages?",
+          choices: ["Python", "HTML", "JavaScript", "CSS"],
+          answer: [0, 2], // Multiple answers
+        },
+       
+        {
+          type: "fill-in-the-blank", // Fill in the blanks
+          question: "The full form of HTML is _________.",
+          answer: "HyperText Markup Language",
+        },
+        {
+          type: "dropdown", // Dropdown question instead of rating
+          question: "Which topic would you like to learn more about?",
+          choices: ["HTML", "CSS", "JavaScript", "React", "Node.js"], // Dropdown options
+          answer: null, // No correct answer, just the selection from dropdown
+        },
+        {
+          type: "true-false", // True/False question
+          question: "JavaScript is a programming language?",
+          choices: ["True", "False"],
+          answer: 0, // 0 for True, 1 for False
+        }
+      ];
+
+      // Function to load the questions dynamically
+      function loadQuestions() {
+        const container = document.getElementById("questions-container");
+
+        // Loop through each question and create elements
+        questions.forEach((q, index) => {
+          const questionBlock = document.createElement("div");
+          questionBlock.classList.add("question-block");
+
+          // Create question text
+          const questionText = document.createElement("h3");
+          questionText.textContent = `${index + 1}. ${q.question}`;
+          questionBlock.appendChild(questionText);
+
+          // Handle different question types
+          if (q.type === "single-choice" || q.type === "true-false" || q.type === "multiple-choice") {
+            // Create multiple choice questions
+            q.choices.forEach((choice, i) => {
+              const choiceContainer = document.createElement("div");
+              choiceContainer.classList.add("choice-container");
+
+              const choiceText = document.createElement("p");
+              choiceText.textContent = choice;
+              choiceText.dataset.index = i;
+              choiceText.dataset.questionIndex = index;
+
+              choiceContainer.appendChild(choiceText);
+              questionBlock.appendChild(choiceContainer);
+
+              // Add click event listener to choices
+              choiceContainer.addEventListener("click", (e) => {
+                // Highlight the selected choice
+                [...questionBlock.querySelectorAll(".choice-container")].forEach((el) =>
+                  el.classList.remove("selected")
+                );
+                e.currentTarget.classList.add("selected");
+                e.currentTarget.dataset.selected = "true";
+
+                // Check the answer immediately
+                const selectedIndex = parseInt(e.currentTarget.querySelector("p").dataset.index);
+                if (q.type === "multiple-choice") {
+                  if (q.answer.includes(selectedIndex)) {
+                    e.currentTarget.classList.add("correct");
+                    e.currentTarget.classList.remove("incorrect");
+                  } else {
+                    e.currentTarget.classList.add("incorrect");
+                    e.currentTarget.classList.remove("correct");
+                  }
+                } else if (q.answer === selectedIndex) {
+                  e.currentTarget.classList.add("correct");
+                  e.currentTarget.classList.remove("incorrect");
+                } else {
+                  e.currentTarget.classList.add("incorrect");
+                  e.currentTarget.classList.remove("correct");
+                }
+              });
+            });
+          } else if (q.type === "fill-in-the-blank") {
+            // Create fill in the blank question
+            const inputField = document.createElement("input");
+            inputField.type = "text";
+            inputField.dataset.questionIndex = index;
+            questionBlock.appendChild(inputField);
+          } else if (q.type === "dropdown") {
+            // Create dropdown question
+            const selectElement = document.createElement("select");
+            selectElement.dataset.questionIndex = index;
+
+            q.choices.forEach((choice, i) => {
+              const optionElement = document.createElement("option");
+              optionElement.value = i;
+              optionElement.textContent = choice;
+              selectElement.appendChild(optionElement);
+            });
+
+            questionBlock.appendChild(selectElement);
+          }
+
+          // Append the question block to the container
+          container.appendChild(questionBlock);
+        });
+      }
+
+      // Calculate score and display results when submit button is clicked
+      document.getElementById("submit").addEventListener("click", () => {
+        let score = 0;
+
+        // Loop through questions and check if the selected answer is correct
+        questions.forEach((q, index) => {
+          const selectedChoice = document.querySelector(
+            `.question-block:nth-child(${index + 1}) .selected`
+          );
+
+          if (q.type === "fill-in-the-blank") {
+            const inputField = document.querySelector(
+              `.question-block:nth-child(${index + 1}) input`
+            );
+            if (inputField && inputField.value.trim().toLowerCase() === q.answer.toLowerCase()) {
+              score++;
+              inputField.classList.add("correct");
+            } else {
+              inputField.classList.add("incorrect");
+            }
+          } else if (q.type === "dropdown") {
+            const selectedDropdown = document.querySelector(
+              `.question-block:nth-child(${index + 1}) select`
+            );
+            if (selectedDropdown) {
+              const selectedIndex = selectedDropdown.selectedIndex;
+              if (selectedIndex === q.answer) {
+                score++;
+              }
+            }
+          } else if (selectedChoice) {
+            const selectedIndex = parseInt(selectedChoice.querySelector("p").dataset.index);
+            if (q.type === "multiple-choice") {
+              if (q.answer.includes(selectedIndex)) {
+                score++;
+              }
+            } else if (selectedIndex === q.answer) {
+              score++;
+            }
+          }
+        });
+
+        // Display the score
+        document.getElementById("results").textContent = `Your score: ${score} / ${questions.length}`;
+
+        // Save score to local storage
+        localStorage.setItem('quizScore', score);
+      });
+
+      // Load previously saved score if available
+      window.onload = () => {
+        loadQuestions();
+
+        // Retrieve the score from local storage and display it
+        const savedScore = localStorage.getItem('quizScore');
+        if (savedScore !== null) {
+          document.getElementById("results").textContent = `Your previous score: ${savedScore} / ${questions.length}`;
+        }
+      };
+    </script>
+  </body>
+</html>

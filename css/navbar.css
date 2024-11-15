@@ -1,0 +1,33 @@
+
+.header{
+    height:15vh;
+    width: 100vw;
+    margin-top:2px;
+    padding: 20px 10%;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+  }
+  
+  .logo{
+    font-size: 48px;
+    color: #ededed;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .navbar a{
+    font-size: 20px;
+    color: #ededed;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 35px;
+    transition: 0.3s;
+  }
+  
+  .navbar a:hover,
+  .navbar a.active {
+    color:#00abf0;  
+  }

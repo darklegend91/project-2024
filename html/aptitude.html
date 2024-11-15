@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aptitude Quiz</title>
+    <link rel="stylesheet" href="../css/test.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="quiz" class="flex-column">
+        <h2>Aptitude Quiz</h2>
+        <div id="questions-container"></div>
+        <button id="submit" class="btn">Submit</button>
+        <div id="results"></div>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          type: "single-choice",
+          question: "What is the value of 2 + 2?",
+          choices: ["1", "2", "3", "4"],
+          answer: 3,
+        },
+        {
+          type: "single-choice",
+          question: "If the speed of a car is 60 km/h, how far can it travel in 2 hours?",
+          choices: ["60 km", "120 km", "150 km", "180 km"],
+          answer: 1,
+        },
+        {
+          type: "true-false",
+          question: "5 is an odd number.",
+          choices: ["True", "False"],
+          answer: 0,
+        },
+        {
+          type: "fill-in-the-blank",
+          question: "The square root of 16 is ________.",
+          answer: "4",
+        },
+        {
+          type: "dropdown",
+          question: "If 5 apples cost 20 dollars, how much will 10 apples cost?",
+          choices: ["30 dollars", "40 dollars", "50 dollars", "60 dollars"],
+          answer: 1,
+        }
+      ];
+
+      function loadQuestions() {
+        const container = document.getElementById("questions-container");
+        questions.forEach((q, index) => {
+          const questionBlock = document.createElement("div");
+          questionBlock.classList.add("question-block");
+
+          const questionText = document.createElement("h3");
+          questionText.textContent = `${index + 1}. ${q.question}`;
+          questionBlock.appendChild(questionText);
+
+          if (q.type === "single-choice" || q.type === "true-false") {
+            q.choices.forEach((choice, i) => {
+              const choiceContainer = document.createElement("div");
+              choiceContainer.classList.add("choice-container");
+
+              const choiceText = document.createElement("p");
+              choiceText.textContent = choice;
+              choiceText.dataset.index = i;
+              choiceText.dataset.questionIndex = index;
+
+              choiceContainer.appendChild(choiceText);
+              questionBlock.appendChild(choiceContainer);
+
+              choiceContainer.addEventListener("click", (e) => {
+                [...questionBlock.querySelectorAll(".choice-container")].forEach((el) =>
+                  el.classList.remove("selected")
+                );
+                e.currentTarget.classList.add("selected");
+                e.currentTarget.dataset.selected = "true";
+              });
+            });
+          } else if (q.type === "fill-in-the-blank") {
+            const inputField = document.createElement("input");
+            inputField.type = "text";
+            inputField.dataset.questionIndex = index;
+            questionBlock.appendChild(inputField);
+          } else if (q.type === "dropdown") {
+            const select = document.createElement("select");
+            select.dataset.questionIndex = index;
+
+            q.choices.forEach((choice, i) => {
+              const option = document.createElement("option");
+              option.textContent = choice;
+              option.value = i;
+              select.appendChild(option);
+            });
+
+            questionBlock.appendChild(select);
+          }
+
+          container.appendChild(questionBlock);
+        });
+      }
+
+      document.getElementById("submit").addEventListener("click", () => {
+        let score = 0;
+
+        questions.forEach((q, index) => {
+          const selectedChoice = document.querySelector(
+            `.question-block:nth-child(${index + 1}) .selected`
+          );
+
+          if (q.type === "fill-in-the-blank") {
+            const inputField = document.querySelector(
+              `.question-block:nth-child(${index + 1}) input`
+            );
+            if (inputField && inputField.value.trim().toLowerCase() === q.answer.toLowerCase()) {
+              score++;
+              inputField.classList.add("correct");
+            } else {
+              inputField.classList.add("incorrect");
+            }
+          } else if (q.type === "dropdown") {
+            const selectedDropdown = document.querySelector(
+              `.question-block:nth-child(${index + 1}) select`
+            );
+            if (selectedDropdown && parseInt(selectedDropdown.value) === q.answer) {
+              score++;
+            }
+          } else if (selectedChoice) {
+            const selectedIndex = parseInt(selectedChoice.querySelector("p").dataset.index);
+            if (selectedIndex === q.answer) {
+              score++;
+            }
+          }
+        });
+
+        document.getElementById("results").textContent = `Your score: ${score} / ${questions.length}`;
+        localStorage.setItem('quizScore', score);
+      });
+
+      window.onload = () => {
+        loadQuestions();
+        const savedScore = localStorage.getItem('quizScore');
+        if (savedScore !== null) {
+          document.getElementById("results").textContent = `Your previous score: ${savedScore} / ${questions.length}`;
+        }
+      };
+    </script>
+  </body>
+</html>

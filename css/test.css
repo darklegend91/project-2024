@@ -1,0 +1,71 @@
+#quiz {
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-radius: 15px;
+  }
+
+  #questions-container {
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for the first set of questions */
+    gap: 2rem;
+    justify-items: center; /* Center the items in each grid cell */
+  }
+
+  /* Question block style */
+  .question-block {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Style for the choice containers */
+  .choice-container {
+    display: flex;
+    margin-bottom: 0.5rem;
+    width: 50%;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.1rem solid #56a5eb;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    transition: transform 150ms;
+  }
+
+  /* Hover effect */
+  .choice-container:hover {
+    background-color: #d9eaff;
+  }
+
+  /* Correct and Incorrect answer styles */
+  .correct {
+    background-color: #28a745;
+  }
+
+  .incorrect {
+    background-color: #dc3545;
+  }
+
+  /* Results section */
+  #results {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+  }
+
+  /* Selected choice effect */
+  .selected {
+    transform: scale(1.05);
+  }
+
+  /* Make last question span both columns and center it */
+  #questions-container > .question-block:nth-child(5) {
+    grid-column: span 2; /* Makes the last question span across both columns */
+    display: flex;
+    justify-content: center;
+  }

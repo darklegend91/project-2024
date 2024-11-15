@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz | Categories</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+        background-image: url("../assets/pexels-codioful-7134985.jpg");
+        background-size: cover;
+      }
+
+      .header {
+        height: 10vh;
+        padding: 20px 10%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 48px;
+        color: #0a0a0a;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .navbar a {
+        font-size: 20px;
+        color: black;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 35px;
+        transition: 0.3s;
+      }
+
+      .navbar a:hover,
+      .navbar a.active {
+        color: #0f00ff;
+      }
+
+      .main-content {
+        height: 80vh;
+        width: 100vw;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: left;
+      }
+
+      .content-heading {
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+      .content-text {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+      .main-text {
+        margin: auto;
+        width: 30%;
+        min-height: 50%;
+        padding: 2.5%;
+      }
+      .main-catagories {
+        margin: auto;
+        width: 50%;
+        height: 90%;
+        display: inline-flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+
+      .cat-container {
+        margin: auto;
+        height: 200px;
+        width: 200px;
+        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(5px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer; /* Add cursor pointer */
+      }
+
+      .cat-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        border-radius: 15px;
+      }
+
+      .cat-container#c1::before {
+        background-image: url("../assets/dev_back.jpg");
+      }
+
+      .cat-container#c2::before {
+        background-image: url("../assets/GK_back.jpg");
+      }
+
+      .cat-container#c3::before {
+        background-image: url("/assets/Space_back.jpg");
+      }
+
+      .cat-container#c4::before {
+        background-image: url("/assets/AI_back.jpg");
+      }
+
+      .cat-container#c5::before {
+        background-image: url("/assets/Sh_back.jpg");
+      }
+
+      .cat-container:hover::before {
+        opacity: 1;
+      }
+
+      .cat-container span {
+        color: black;
+        font-weight: bold;
+        font-size: 24px;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      .cat-container:hover span {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+
+      .cat-container:hover {
+        box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+      }
+
+      #c3 {
+        margin-top: 20%;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <a href="#" class="logo">Quiz</a>
+      <nav class="navbar">
+        <a href="../html/home.html">Home</a>
+        <a href="#" class="active">Categories</a>
+        <a href="../html/about.html">About</a>
+        <a href="../html/profile.html">Profile</a>
+      </nav>
+    </header>
+
+    <div class="main-content">
+      <div class="main-text">
+        <div class="content-heading">
+          <h1>Categories</h1>
+        </div>
+        <div class="content-text">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis,
+            quasi perferendis qui tempora nisi officia quod officiis asperiores
+            harum recusandae non veniam animi, distinctio mollitia dolores odit
+            nostrum beatae. Maiores vel optio neque nam doloribus, esse
+            voluptates, itaque quasi ipsa illum quam, quidem eveniet error? Modi
+            similique quasi voluptatibus cupiditate.
+          </p>
+        </div>
+      </div>
+
+      <div class="main-catagories">
+        <div class="cat-container" id="c1"><span>HTML CSS JS</span></div>
+        <div class="cat-container" id="c2"><span>Aptitude</span></div>
+        <div class="cat-container" id="c3"><span>Space</span></div>
+        <div class="cat-container" id="c4"><span>A I </span></div>
+        <div class="cat-container" id="c5"><span>Super Heros</span></div>
+      </div>
+    </div>
+
+    <script>
+      const categoryContainers = document.querySelectorAll('.cat-container');
+
+      categoryContainers.forEach(container => {
+        container.addEventListener('click', () => {
+          const categoryId = container.id;
+
+          switch (categoryId) {
+            case 'c1':
+              window.location.href = './html_css_js.html';
+              break;
+            case 'c2':
+              window.location.href = './aptitude.html';
+              break;
+            case 'c3':
+              window.location.href = './space.html';
+              break;
+            case 'c4':
+              window.location.href = './AI.html';
+              break;
+            case 'c5':
+              window.location.href = './superheros.html';
+              break;
+            default:
+              console.log('Category not defined');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
