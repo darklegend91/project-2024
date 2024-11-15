@@ -39,6 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("user", JSON.stringify(userData));
 
       alert("Registration successful!");
-      window.location.href = "index.html";
+      window.location.href = "../index.html";
     });
   });

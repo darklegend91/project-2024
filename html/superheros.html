@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Superheroes Quiz</title>
-    <link rel="stylesheet" href="../css/test.css">
-  </head>
-  <body>
-    <div class="container">
-      <div id="quiz" class="flex-column">
-        <h2>Superheroes Quiz</h2>
-        <div id="questions-container"></div>
-        <button id="submit" class="btn">Submit</button>
-        <div id="results"></div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Hero Quiz</title>
+  <link rel="stylesheet" href="../css/test.css">
+</head>
+<body>
+  <div class="container">
+    <div id="quiz" class="flex-column">
+      <h2>Super Heros Quiz</h2>
+      <div id="questions-container"></div>
+      <button id="submit" class="btn">Submit</button>
+      <div id="results"></div>
     </div>
+  </div>
 
-    <script>
-      const questions = [
+  <script>
+    const loggedInUser = localStorage.getItem('loggedInUser');
+
+    if (!loggedInUser) {
+      // Redirect to login page if no user is logged in
+      window.location.href = '/login'; // Replace '/login' with your actual login page URL
+    }
+
+    const questions = [
         {
           type: "single-choice",
           question: "Which superhero is known for his shield?",
@@ -49,104 +56,108 @@
         }
       ];
 
-      function loadQuestions() {
-        const container = document.getElementById("questions-container");
-        questions.forEach((q, index) => {
-          const questionBlock = document.createElement("div");
-          questionBlock.classList.add("question-block");
+    function loadQuestions() {
+      const container = document.getElementById("questions-container");
+      container.innerHTML = ""; // Clear the container for retake
 
-          const questionText = document.createElement("h3");
-          questionText.textContent = `${index + 1}. ${q.question}`;
-          questionBlock.appendChild(questionText);
+      questions.forEach((q, index) => {
+        const questionBlock = document.createElement("div");
+        questionBlock.classList.add("question-block");
 
-          if (q.type === "single-choice" || q.type === "true-false") {
-            q.choices.forEach((choice, i) => {
-              const choiceContainer = document.createElement("div");
-              choiceContainer.classList.add("choice-container");
+        const questionText = document.createElement("h3");
+        questionText.textContent = `${index + 1}. ${q.question}`;
+        questionBlock.appendChild(questionText);
 
-              const choiceText = document.createElement("p");
-              choiceText.textContent = choice;
-              choiceText.dataset.index = i;
-              choiceText.dataset.questionIndex = index;
+        if (q.type === "single-choice" || q.type === "true-false") {
+          q.choices.forEach((choice, i) => {
+            const choiceContainer = document.createElement("div");
+            choiceContainer.classList.add("choice-container");
 
-              choiceContainer.appendChild(choiceText);
-              questionBlock.appendChild(choiceContainer);
+            const choiceText = document.createElement("p");
+            choiceText.textContent = choice;
+            choiceText.dataset.index = i;
+            choiceText.dataset.questionIndex = index;
 
-              choiceContainer.addEventListener("click", (e) => {
-                [...questionBlock.querySelectorAll(".choice-container")].forEach((el) =>
-                  el.classList.remove("selected")
-                );
-                e.currentTarget.classList.add("selected");
-                e.currentTarget.dataset.selected = "true";
-              });
+            choiceContainer.appendChild(choiceText);
+            questionBlock.appendChild(choiceContainer);
+
+            choiceContainer.addEventListener("click", (e) => {
+              [...questionBlock.querySelectorAll(".choice-container")].forEach((el) =>
+                el.classList.remove("selected")
+              );
+              e.currentTarget.classList.add("selected");
+              e.currentTarget.dataset.selected = "true";
             });
-          } else if (q.type === "fill-in-the-blank") {
-            const inputField = document.createElement("input");
-            inputField.type = "text";
-            inputField.dataset.questionIndex = index;
-            questionBlock.appendChild(inputField);
-          } else if (q.type === "dropdown") {
-            const select = document.createElement("select");
-            select.dataset.questionIndex = index;
+          });
+        } else if (q.type === "fill-in-the-blank") {
+          const inputField = document.createElement("input");
+          inputField.type = "text";
+          inputField.dataset.questionIndex = index;
+          questionBlock.appendChild(inputField);
+        } else if (q.type === "dropdown") {
+          const select = document.createElement("select");
+          select.dataset.questionIndex = index;
 
-            q.choices.forEach((choice, i) => {
-              const option = document.createElement("option");
-              option.textContent = choice;
-              option.value = i;
-              select.appendChild(option);
-            });
+          q.choices.forEach((choice, i) => {
+            const option = document.createElement("option");
+            option.textContent = choice;
+            option.value = i;
+            select.appendChild(option);
+          });
 
-            questionBlock.appendChild(select);
+          questionBlock.appendChild(select);
+        }
+
+        container.appendChild(questionBlock);
+      });
+    }
+
+    document.getElementById("submit").addEventListener("click", () => {
+      let score = 0;
+
+      questions.forEach((q, index) => {
+        const questionBlock = document.querySelector(`.question-block:nth-child(${index + 1})`);
+        const selectedChoice = questionBlock.querySelector(".selected");
+
+        if (q.type === "fill-in-the-blank") {
+          const inputField = questionBlock.querySelector("input");
+          if (inputField && inputField.value.trim().toLowerCase() === q.answer.toLowerCase()) {
+            score++;
+            inputField.classList.add("correct");
+          } else {
+            inputField.classList.add("incorrect");
           }
-
-          container.appendChild(questionBlock);
-        });
-      }
-
-      document.getElementById("submit").addEventListener("click", () => {
-        let score = 0;
-
-        questions.forEach((q, index) => {
-          const selectedChoice = document.querySelector(
-            `.question-block:nth-child(${index + 1}) .selected`
-          );
-
-          if (q.type === "fill-in-the-blank") {
-            const inputField = document.querySelector(
-              `.question-block:nth-child(${index + 1}) input`
-            );
-            if (inputField && inputField.value.trim().toLowerCase() === q.answer.toLowerCase()) {
-              score++;
-              inputField.classList.add("correct");
-            } else {
-              inputField.classList.add("incorrect");
-            }
-          } else if (q.type === "dropdown") {
-            const selectedDropdown = document.querySelector(
-              `.question-block:nth-child(${index + 1}) select`
-            );
-            if (selectedDropdown && parseInt(selectedDropdown.value) === q.answer) {
-              score++;
-            }
-          } else if (selectedChoice) {
-            const selectedIndex = parseInt(selectedChoice.querySelector("p").dataset.index);
-            if (selectedIndex === q.answer) {
-              score++;
-            }
+        } else if (q.type === "dropdown") {
+          const selectedDropdown = questionBlock.querySelector("select");
+          if (selectedDropdown && parseInt(selectedDropdown.value) === q.answer) {
+            score++;
+            selectedDropdown.classList.add("correct");
+          } else {
+            selectedDropdown.classList.add("incorrect");
           }
-        });
-
-        document.getElementById("results").textContent = `Your score: ${score} / ${questions.length}`;
-        localStorage.setItem('quizScore', score);
+        } else if (selectedChoice) {
+          const selectedIndex = parseInt(selectedChoice.querySelector("p").dataset.index);
+          if (selectedIndex === q.answer) {
+            score++;
+            selectedChoice.classList.add("correct");
+          } else {
+            selectedChoice.classList.add("incorrect");
+            questionBlock.querySelector(`.choice-container:nth-child(${q.answer + 2})`).classList.add("correct");
+          }
+        }
       });
 
-      window.onload = () => {
-        loadQuestions();
-        const savedScore = localStorage.getItem('quizScore');
-        if (savedScore !== null) {
-          document.getElementById("results").textContent = `Your previous score: ${savedScore} / ${questions.length}`;
-        }
-      };
-    </script>
-  </body>
-</html>
+      document.getElementById("results").textContent = `Your score: ${score} / ${questions.length}`;
+      // Save score to local storage using logged-in user's name
+      localStorage.setItem(`${loggedInUser}-Super Hero Quiz`, score);
+    });
+
+    window.onload = () => {
+      loadQuestions();
+      const savedScore = localStorage.getItem(`${loggedInUser}-Super Hero Quiz`);
+      if (savedScore !== null) {
+        document.getElementById("results").textContent = `Your previous score: ${savedScore} / ${questions.length}`;
+      }
+    };
+  </script>
+</body>

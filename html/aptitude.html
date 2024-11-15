@@ -17,6 +17,14 @@
     </div>
 
     <script>
+      // Fetch logged-in user from localStorage
+      const loggedInUser = localStorage.getItem('loggedInUser'); // Replace this with your actual login mechanism
+
+      if (!loggedInUser) {
+        // Redirect to login page if no user is logged in
+        window.location.href = '/login'; // Replace '/login' with your actual login page URL
+      }
+
       const questions = [
         {
           type: "single-choice",
@@ -77,13 +85,28 @@
                   el.classList.remove("selected")
                 );
                 e.currentTarget.classList.add("selected");
-                e.currentTarget.dataset.selected = "true";
+
+                // Real-time feedback
+                if (parseInt(e.currentTarget.querySelector("p").dataset.index) === q.answer) {
+                  e.currentTarget.classList.add("correct");
+                } else {
+                  e.currentTarget.classList.add("incorrect");
+                }
               });
             });
           } else if (q.type === "fill-in-the-blank") {
             const inputField = document.createElement("input");
             inputField.type = "text";
             inputField.dataset.questionIndex = index;
+            inputField.addEventListener("input", (e) => {
+              if (e.target.value.trim().toLowerCase() === q.answer.toLowerCase()) {
+                inputField.classList.add("correct");
+                inputField.classList.remove("incorrect");
+              } else {
+                inputField.classList.add("incorrect");
+                inputField.classList.remove("correct");
+              }
+            });
             questionBlock.appendChild(inputField);
           } else if (q.type === "dropdown") {
             const select = document.createElement("select");
@@ -94,6 +117,16 @@
               option.textContent = choice;
               option.value = i;
               select.appendChild(option);
+            });
+
+            select.addEventListener("change", (e) => {
+              if (parseInt(e.target.value) === q.answer) {
+                select.classList.add("correct");
+                select.classList.remove("incorrect");
+              } else {
+                select.classList.add("incorrect");
+                select.classList.remove("correct");
+              }
             });
 
             questionBlock.appendChild(select);
@@ -117,9 +150,6 @@
             );
             if (inputField && inputField.value.trim().toLowerCase() === q.answer.toLowerCase()) {
               score++;
-              inputField.classList.add("correct");
-            } else {
-              inputField.classList.add("incorrect");
             }
           } else if (q.type === "dropdown") {
             const selectedDropdown = document.querySelector(
@@ -137,12 +167,13 @@
         });
 
         document.getElementById("results").textContent = `Your score: ${score} / ${questions.length}`;
-        localStorage.setItem('quizScore', score);
+        // Save score to local storage with the logged-in user's name
+        localStorage.setItem(`${loggedInUser}-Aptitude Quiz`, score);
       });
 
       window.onload = () => {
         loadQuestions();
-        const savedScore = localStorage.getItem('quizScore');
+        const savedScore = localStorage.getItem(`${loggedInUser}-Aptitude Quiz`);
         if (savedScore !== null) {
           document.getElementById("results").textContent = `Your previous score: ${savedScore} / ${questions.length}`;
         }

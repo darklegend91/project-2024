@@ -43,24 +43,40 @@
     background-color: #d9eaff;
   }
 
-  /* Correct and Incorrect answer styles */
-  .correct {
-    background-color: #28a745;
+  .choice-container {
+    width: 75%;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s;
   }
-
-  .incorrect {
-    background-color: #dc3545;
+  .choice-container.correct {
+    background-color: #50ff59; /* Darker green for correct answer */
+    color: #0a0a0a;
   }
-
-  /* Results section */
-  #results {
-    margin-top: 2rem;
-    font-size: 1.5rem;
+  .choice-container.incorrect {
+    background-color: #f88787; /* Darker red for incorrect answer */
+    color: #070707;
   }
-
-  /* Selected choice effect */
   .selected {
-    transform: scale(1.05);
+    border: 2px solid #3f51b5; /* Dark blue for selected answer */
+  }
+  input.correct {
+    background-color: #2e7d32; /* Darker green for correct fill-in */
+    color: #fff;
+  }
+  input.incorrect {
+    background-color: #c62828; /* Darker red for incorrect fill-in */
+    color: #fff;
+  }
+  select.correct {
+    background-color: #2e7d32; /* Darker green for correct dropdown */
+    color: #fff;
+  }
+  select.incorrect {
+    background-color: #c62828; /* Darker red for incorrect dropdown */
+    color: #fff;
   }
 
   /* Make last question span both columns and center it */

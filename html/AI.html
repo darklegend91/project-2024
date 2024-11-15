@@ -6,8 +6,21 @@
     <title>AI Quiz</title>
     <link rel="stylesheet" href="../css/test.css">
     <style>
-        .choice-container {
-    width: 75%;}
+      .correct {
+        background-color: lightgreen;
+      }
+      .incorrect {
+        background-color: lightcoral;
+      }
+      .choice-container {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        cursor: pointer;
+      }
+      .selected {
+        border: 2px solid #000;
+      }
     </style>
   </head>
   <body>
@@ -16,61 +29,59 @@
         <h2>AI Quiz</h2>
         <div id="questions-container"></div>
         <button id="submit" class="btn">Submit</button>
+        <button id="retake" class="btn">Retake Quiz</button>
         <div id="results"></div>
       </div>
     </div>
 
     <script>
-      // Question data with various types
       const questions = [
         {
-          type: "single-choice", // Single choice correct question
+          type: "single-choice",
           question: "What does AI stand for?",
           choices: ["Artificial Intelligence", "Automated Intelligence", "Artificial Insight", "Analytical Intelligence"],
           answer: 0,
         },
         {
-          type: "single-choice", // Single choice correct
+          type: "single-choice",
           question: "Which of the following is a popular AI programming language?",
           choices: ["Python", "JavaScript", "HTML", "CSS"],
           answer: 0,
         },
         {
-          type: "true-false", // True/False question
+          type: "true-false",
           question: "AI can learn from data.",
           choices: ["True", "False"],
-          answer: 0, // 0 for True
+          answer: 0,
         },
         {
-          type: "fill-in-the-blank", // Fill in the blanks
+          type: "fill-in-the-blank",
           question: "The technology that allows computers to recognize images is called _________.",
           answer: "Computer Vision",
         },
         {
-          type: "dropdown", // Dropdown question
+          type: "dropdown",
           question: "Which of the following is an AI subfield?",
           choices: ["Robotics", "Cybersecurity", "Cloud Computing", "Networking"],
-          answer: 0, // Robotics
+          answer: 0,
         }
       ];
 
-      // Function to load the questions dynamically
+      const loggedInUser = localStorage.getItem("loggedInUser") || "guest"; // Default to "guest" if no user is logged in
+
       function loadQuestions() {
         const container = document.getElementById("questions-container");
+        container.innerHTML = ""; // Clear container for retake
 
-        // Loop through each question and create elements
         questions.forEach((q, index) => {
           const questionBlock = document.createElement("div");
           questionBlock.classList.add("question-block");
 
-          // Create question text
           const questionText = document.createElement("h3");
           questionText.textContent = `${index + 1}. ${q.question}`;
           questionBlock.appendChild(questionText);
 
-          // Handle different question types
-          if (q.type === "single-choice" || q.type === "true-false") {
-            // Create multiple choice questions
+          if (q.type === "single-choice" || q.type === "true-false" || q.type === "multiple-choice") {
             q.choices.forEach((choice, i) => {
               const choiceContainer = document.createElement("div");
               choiceContainer.classList.add("choice-container");
@@ -83,47 +94,57 @@
               choiceContainer.appendChild(choiceText);
               questionBlock.appendChild(choiceContainer);
 
-              // Add click event listener to choices
               choiceContainer.addEventListener("click", (e) => {
-                // Highlight the selected choice
                 [...questionBlock.querySelectorAll(".choice-container")].forEach((el) =>
                   el.classList.remove("selected")
                 );
                 e.currentTarget.classList.add("selected");
-                e.currentTarget.dataset.selected = "true";
+                const selectedIndex = parseInt(e.currentTarget.querySelector("p").dataset.index);
+
+                // Real-time feedback
+                if (q.type === "multiple-choice") {
+                  if (q.answer.includes(selectedIndex)) {
+                    e.currentTarget.classList.add("correct");
+                    e.currentTarget.classList.remove("incorrect");
+                  } else {
+                    e.currentTarget.classList.add("incorrect");
+                    e.currentTarget.classList.remove("correct");
+                  }
+                } else if (q.answer === selectedIndex) {
+                  e.currentTarget.classList.add("correct");
+                  e.currentTarget.classList.remove("incorrect");
+                } else {
+                  e.currentTarget.classList.add("incorrect");
+                  e.currentTarget.classList.remove("correct");
+                }
               });
             });
           } else if (q.type === "fill-in-the-blank") {
-            // Create fill in the blank question
             const inputField = document.createElement("input");
             inputField.type = "text";
             inputField.dataset.questionIndex = index;
             questionBlock.appendChild(inputField);
           } else if (q.type === "dropdown") {
-            // Create dropdown question
-            const select = document.createElement("select");
-            select.dataset.questionIndex = index;
+            const selectElement = document.createElement("select");
+            selectElement.dataset.questionIndex = index;
 
             q.choices.forEach((choice, i) => {
-              const option = document.createElement("option");
-              option.textContent = choice;
-              option.value = i;
-              select.appendChild(option);
+              const optionElement = document.createElement("option");
+              optionElement.value = i;
+              optionElement.textContent = choice;
+              selectElement.appendChild(optionElement);
             });
 
-            questionBlock.appendChild(select);
+            questionBlock.appendChild(selectElement);
           }
 
-          // Append the question block to the container
           container.appendChild(questionBlock);
         });
       }
 
-      // Calculate score and display results when submit button is clicked
       document.getElementById("submit").addEventListener("click", () => {
         let score = 0;
 
-        // Loop through questions and check if the selected answer is correct
         questions.forEach((q, index) => {
           const selectedChoice = document.querySelector(
             `.question-block:nth-child(${index + 1}) .selected`
@@ -135,9 +156,6 @@
             );
             if (inputField && inputField.value.trim().toLowerCase() === q.answer.toLowerCase()) {
               score++;
-              inputField.classList.add("correct");
-            } else {
-              inputField.classList.add("incorrect");
             }
           } else if (q.type === "dropdown") {
             const selectedDropdown = document.querySelector(
@@ -154,19 +172,14 @@
           }
         });
 
-        // Display the score
         document.getElementById("results").textContent = `Your score: ${score} / ${questions.length}`;
-
-        // Save score to local storage
-        localStorage.setItem('quizScore', score);
+        // Save the score to localStorage with the logged-in user's ID
+        localStorage.setItem(`${loggedInUser}-Ai Quiz`, score);
       });
 
-      // Load previously saved score if available
       window.onload = () => {
         loadQuestions();
-
-        // Retrieve the score from local storage and display it
-        const savedScore = localStorage.getItem('quizScore');
+        const savedScore = localStorage.getItem(`${loggedInUser}-Ai Quiz`);
         if (savedScore !== null) {
           document.getElementById("results").textContent = `Your previous score: ${savedScore} / ${questions.length}`;
         }
