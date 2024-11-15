@@ -1,8 +1,14 @@
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
             margin: 0;
             padding: 0;
+            background-image: url("https://i.pinimg.com/1200x/2f/99/e5/2f99e5ca97e7750383856382650db165.jpg");
+            background-size: cover;
+        }
+        img
+        {
+            border-radius: 20px;
+            border: 2px solid #007bff;
         }
 
         .container {
@@ -12,7 +18,7 @@
         }
 
         #profile {
-            background-color: white;
+            background-color: rgba(0, 0, 0, 0.54);
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -20,8 +26,8 @@
 
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 15px;
+            color: #faf1f1;
+            margin-bottom: 25px;
         }
         .details
         {
@@ -36,7 +42,6 @@
             margin-top: 0;
             width: 50%;
             margin-bottom: 30px;
-            /* background-color: #ff0000; */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -44,6 +49,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            color: #f9f9f9;
         }
         .p-img
         {
@@ -58,12 +64,12 @@
         #user-info h3 {
             margin: 0;
             font-size: 18px;
-            color: #555;
+            color: #ffffff;
         }
 
         #user-info p {
             margin-top: 10px;
-            color: black;
+            color: rgb(245, 245, 245);
             font-size: 25px;
         }
 
@@ -106,6 +112,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             font-size: 12px;
+            background-color: #4c4c4ca2;
         }
 
         #quiz-scores h3 {
