@@ -5,32 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz | HTML CSS JS</title>
     <link rel="stylesheet" href="../css/test.css" />
-    <style>
-      .correct {
-        background-color: lightgreen;
-      }
-      .incorrect {
-        background-color: lightcoral;
-      }
-      .choice-container {
-        padding: 10px;
-        border: 1px solid #ccc;
-        margin-bottom: 5px;
-        cursor: pointer;
-      }
-      .selected {
-        border: 2px solid #000;
-      }
-    </style>
   </head>
   <body>
     <div class="container">
       <div id="quiz" class="flex-column">
-        <h2>Quiz</h2>
+        <div class="heading"><h2>Space Quiz</h2></div>
         <div id="questions-container"></div>
-        <button id="submit" class="btn">Submit</button>
-        <button id="retake" class="btn">Retake</button>
-        <div id="results"></div>
+        <div class="result">
+          <button id="submit" class="btn">Submit</button>
+          <div id="results"></div>
+          <div class="actions">
+            <button class="btn" id="more-actions">More Quiz</button>
+            <button class="btn" id="more-actions">Profile</button>
+          </div>
+        </div>
       </div>
     </div>
 

@@ -1,0 +1,187 @@
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #profile {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .details
+        {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: fit-content;
+            width: 100%;
+        }
+        #user-info {
+            margin: auto;
+            margin-top: 0;
+            width: 50%;
+            margin-bottom: 30px;
+            /* background-color: #ff0000; */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .p-img
+        {
+            height: 100%;
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: none;
+            /* background-color: black; */
+        }
+        #user-info h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        #user-info p {
+            margin-top: 10px;
+            color: black;
+            font-size: 25px;
+        }
+
+        #edit-profile {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        #edit-profile button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #edit-profile button:hover {
+            background-color: #0056b3;
+        }
+        .scores-info
+        {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items:center ;
+            height: fit-content;
+            width: 100%;
+        }
+
+        #quiz-scores {
+            margin-top: 30px;
+            display: flex;
+            width: 50%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid red;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 12px;
+        }
+
+        #quiz-scores h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        #quiz-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #quiz-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 16px;
+        }
+
+        #quiz-list li:nth-child(odd) {
+            background-color: #f0f0f0;
+        }
+
+        .yet-to-play {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .score {
+            color: #5bc0de;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .edit-fields {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .edit-fields input {
+            padding: 8px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            width: 250px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .edit-fields button {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-fields button:hover {
+            background-color: #218838;
+        }

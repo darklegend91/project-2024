@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <div class="container">
+        <div id="profile">
+            <h1>User Profile</h1>
+            <div class="details">
+
+            <div id="user-info">
+                <p id="user-name"></p>
+                <p id="user-email"></p>
+            </div>
+            <div class="p-img">
+                <img src="../assets/pimg.jpg" alt="profile-image" id-="pimg" height="300px" width="300px">
+            </div>
+        </div>
+
+            <div id="edit-profile">
+                <button id="edit-btn">Edit Profile</button>
+            </div>
+
+            <div class="edit-fields" id="edit-fields">
+                <input type="text" id="new-name" placeholder="Enter new name" />
+                <input type="email" id="new-email" placeholder="Enter new email" />
+                <button id="save-btn">Save Changes</button>
+            </div>
+
+            <div class="scores-info">
+                <div id="quiz-scores">
+                    <h1>Quiz Scores</h1>
+                    <ul id="quiz-list"></ul>
+                </div>
+            </div>
+            
+
+            <a href="home.html" class="back-btn">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch logged-in user's data and quiz scores
+        function loadProfile() {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+            if (!loggedInUser) {
+                window.location.href = "login.html"; // Redirect to login if not logged in
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem("user"));
+            const quizzes = [
+                "Ai Quiz",
+                "Aptitude Quiz",
+                "HTML CSS JS Quiz",
+                "Space Quiz",
+                "Super Hero Quiz"
+            ];
+
+            // Set the user info
+            document.getElementById("user-name").textContent = `Name: ${userData.name}`;
+            document.getElementById("user-email").textContent = `Email: ${userData.email}`;
+
+            // Set the quiz scores
+            const quizList = document.getElementById("quiz-list");
+            quizzes.forEach((quiz) => {
+                const score = localStorage.getItem(`${loggedInUser}-${quiz}`);
+                const listItem = document.createElement("li");
+                if (score !== null) {
+                    listItem.textContent = `${quiz}: `;
+                    const scoreText = document.createElement("span");
+                    scoreText.classList.add("score");
+                    scoreText.textContent = score;
+                    listItem.appendChild(scoreText);
+                } else {
+                    listItem.textContent = `${quiz}: `;
+                    const notPlayedText = document.createElement("span");
+                    notPlayedText.classList.add("yet-to-play");
+                    notPlayedText.textContent = "Yet to be played";
+                    listItem.appendChild(notPlayedText);
+                }
+                quizList.appendChild(listItem);
+            });
+        }
+
+        // Toggle edit fields visibility
+        document.getElementById("edit-btn").addEventListener("click", () => {
+            const editFields = document.getElementById("edit-fields");
+            editFields.style.display = editFields.style.display === "block" ? "none" : "block";
+        });
+
+        // Save new user data
+        document.getElementById("save-btn").addEventListener("click", () => {
+            const newName = document.getElementById("new-name").value;
+            const newEmail = document.getElementById("new-email").value;
+
+            if (newName && newEmail) {
+                const loggedInUser = localStorage.getItem("loggedInUser");
+                let userData = JSON.parse(localStorage.getItem("user"));
+                if (loggedInUser === userData.name) {
+                    userData.name = newName;
+                    userData.email = newEmail;
+                    localStorage.setItem("user", JSON.stringify(userData));
+                    loadProfile(); // Reload the profile with new data
+                    alert("Profile updated successfully!");
+                }
+            } else {
+                alert("Please fill in all fields.");
+            }
+        });
+
+        // Load the profile page
+        window.onload = loadProfile;
+    </script>
+</body>
+</html>

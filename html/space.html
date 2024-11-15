@@ -9,10 +9,16 @@
 <body>
   <div class="container">
     <div id="quiz" class="flex-column">
-      <h2>Space Quiz</h2>
+      <div class="heading"><h2>Space Quiz</h2></div>
       <div id="questions-container"></div>
-      <button id="submit" class="btn">Submit</button>
-      <div id="results"></div>
+      <div class="result">
+        <button id="submit" class="btn">Submit</button>
+        <div id="results"></div>
+        <div class="actions">
+          <button class="btn" id="more-actions">More Quiz</button>
+          <button class="btn" id="more-actions">Profile</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -38,12 +44,6 @@
         answer: 2,
       },
       {
-        type: "true-false",
-        question: "The Sun is a star.",
-        choices: ["True", "False"],
-        answer: 0,
-      },
-      {
         type: "fill-in-the-blank",
         question: "The first man on the Moon was _________.",
         answer: "Neil Armstrong",
@@ -53,6 +53,11 @@
         question: "Which of these is not a moon of Earth?",
         choices: ["Luna", "Europa", "Phobos", "Titan"],
         answer: 2,
+      }, {
+        type: "true-false",
+        question: "The Sun is a star.",
+        choices: ["True", "False"],
+        answer: 0,
       }
     ];
 

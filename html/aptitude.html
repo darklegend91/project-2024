@@ -6,23 +6,28 @@
     <title>Aptitude Quiz</title>
     <link rel="stylesheet" href="../css/test.css">
   </head>
+
   <body>
     <div class="container">
       <div id="quiz" class="flex-column">
-        <h2>Aptitude Quiz</h2>
+        <div class="heading"><h2>Space Quiz</h2></div>
         <div id="questions-container"></div>
-        <button id="submit" class="btn">Submit</button>
-        <div id="results"></div>
+        <div class="result">
+          <button id="submit" class="btn">Submit</button>
+          <div id="results"></div>
+          <div class="actions">
+            <button class="btn" id="more-actions">More Quiz</button>
+            <button class="btn" id="more-actions">Profile</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <script>
-      // Fetch logged-in user from localStorage
-      const loggedInUser = localStorage.getItem('loggedInUser'); // Replace this with your actual login mechanism
+      const loggedInUser = localStorage.getItem('loggedInUser');
 
       if (!loggedInUser) {
-        // Redirect to login page if no user is logged in
-        window.location.href = '/login'; // Replace '/login' with your actual login page URL
+        window.location.href = '../index.html';
       }
 
       const questions = [
@@ -39,12 +44,6 @@
           answer: 1,
         },
         {
-          type: "true-false",
-          question: "5 is an odd number.",
-          choices: ["True", "False"],
-          answer: 0,
-        },
-        {
           type: "fill-in-the-blank",
           question: "The square root of 16 is ________.",
           answer: "4",
@@ -54,6 +53,11 @@
           question: "If 5 apples cost 20 dollars, how much will 10 apples cost?",
           choices: ["30 dollars", "40 dollars", "50 dollars", "60 dollars"],
           answer: 1,
+        }, {
+          type: "true-false",
+          question: "5 is an odd number.",
+          choices: ["True", "False"],
+          answer: 0,
         }
       ];
 

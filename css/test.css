@@ -1,31 +1,60 @@
+body {
+  background: #283048;
+  background: -webkit-linear-gradient(to left, #859398, #283048); 
+  background: linear-gradient(to left, #859398, #283048);
+
+  /* background-image: url("https://i.pinimg.com/1200x/2f/99/e5/2f99e5ca97e7750383856382650db165.jpg");
+  background-size: cover;
+  overflow: hidden; */
+}
+
+.heading
+{
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 #quiz {
     margin-left: 10%;
     margin-right: 10%;
     padding: 20px;
-    background-color: #f1f1f1;
     border-radius: 15px;
   }
 
   #questions-container {
     margin: 2rem 0;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 15px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for the first set of questions */
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    justify-items: center; /* Center the items in each grid cell */
+    justify-items: center;
   }
 
-  /* Question block style */
   .question-block {
-    margin-bottom: 2rem;
+    
+    background: rgba( 247, 247, 247, 0.15 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 8px );
+    -webkit-backdrop-filter: blur( 8px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    width: 75%;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  /* Style for the choice containers */
   .choice-container {
     display: flex;
+    color:aliceblue;
     margin-bottom: 0.5rem;
     width: 50%;
     padding: 1rem;
@@ -33,55 +62,93 @@
     justify-content: center;
     align-items: center;
     border: 0.1rem solid #56a5eb;
-    background-color: #f1f1f1;
     cursor: pointer;
     transition: transform 150ms;
-  }
+    background: rgba( 247, 247, 247, 0.15 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 18.5px );
+    -webkit-backdrop-filter: blur( 18.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
 
+  }
   /* Hover effect */
   .choice-container:hover {
     background-color: #d9eaff;
+    color:black;
   }
 
   .choice-container {
     width: 75%;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
     margin-bottom: 5px;
     transition: background-color 0.3s;
   }
   .choice-container.correct {
-    background-color: #50ff59; /* Darker green for correct answer */
+    background-color: #50ff59;
     color: #0a0a0a;
   }
   .choice-container.incorrect {
-    background-color: #f88787; /* Darker red for incorrect answer */
+    background-color: #f88787;
     color: #070707;
   }
   .selected {
-    border: 2px solid #3f51b5; /* Dark blue for selected answer */
+    border: 2px solid #3f51b5;
   }
   input.correct {
-    background-color: #2e7d32; /* Darker green for correct fill-in */
+    background-color: #2e7d32;
     color: #fff;
   }
   input.incorrect {
-    background-color: #c62828; /* Darker red for incorrect fill-in */
+    background-color: #c62828;
     color: #fff;
   }
   select.correct {
-    background-color: #2e7d32; /* Darker green for correct dropdown */
+    background-color: #2e7d32;
     color: #fff;
   }
   select.incorrect {
-    background-color: #c62828; /* Darker red for incorrect dropdown */
+    background-color: #c62828; 
     color: #fff;
   }
 
-  /* Make last question span both columns and center it */
   #questions-container > .question-block:nth-child(5) {
-    grid-column: span 2; /* Makes the last question span across both columns */
+    grid-column: span 2; 
     display: flex;
     justify-content: center;
   }
+  
+  .result
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #results
+  {
+    font-size: 30px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+  }
+  .btn{
+    width: 130px;
+    height: 40px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.btn:hover{
+    background: rgba(44, 255, 29, 0.386);
+    transform: scale(1.1);
+    transition: ease-in-out 0.5s;
+    font-weight: bold;
+}
+#more-actions:hover{
+    background: rgba(1, 255, 234, 0.386);
+    transform: none;
+}

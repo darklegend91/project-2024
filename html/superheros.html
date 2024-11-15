@@ -7,14 +7,20 @@
   <link rel="stylesheet" href="../css/test.css">
 </head>
 <body>
-  <div class="container">
-    <div id="quiz" class="flex-column">
-      <h2>Super Heros Quiz</h2>
-      <div id="questions-container"></div>
+<div class="container">
+  <div id="quiz" class="flex-column">
+    <div class="heading"><h2>Space Quiz</h2></div>
+    <div id="questions-container"></div>
+    <div class="result">
       <button id="submit" class="btn">Submit</button>
       <div id="results"></div>
+      <div class="actions">
+        <button class="btn" id="more-actions">More Quiz</button>
+        <button class="btn" id="more-actions">Profile</button>
+      </div>
     </div>
   </div>
+</div>
 
   <script>
     const loggedInUser = localStorage.getItem('loggedInUser');
